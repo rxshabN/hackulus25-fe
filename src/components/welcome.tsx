@@ -129,7 +129,7 @@ export default function Welcome() {
             <p className="text-2xl text-[#000000] font-medium">
               Where ideas ignite, <br />
               Code flows, and innovation takes flight. <br />
-              36 hours to build, break, and revolutionize!
+              24 hours to build, break, and revolutionize!
             </p>
           </div>
           <div className="flex justify-center gap-8">
