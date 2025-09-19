@@ -132,7 +132,7 @@ const SplashScreen = () => {
               }}
             >
               <Image
-                src="/group-47.png"
+                src="/group-47.webp"
                 alt="Logo element"
                 width={elementSize}
                 height={elementSize}

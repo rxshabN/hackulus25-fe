@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import IdeaModificationForm from "@/components/idea-forms/idea-modify-form";
 import withAuth from "@/components/auth/withAuth";
@@ -20,7 +22,7 @@ const IdeaModification = () => {
       <div className="logo-circle">
         <div className="logo-circle-white">
           <Image
-            src="/final-logo.png"
+            src="/final-logo.webp"
             alt="Hackulus Logo"
             width={300}
             height={300}

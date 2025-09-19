@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { easeOut, motion } from "framer-motion";
@@ -48,9 +48,10 @@ export default function ProjectModifyForm({
       await api.put(`/users/submission/${submission.submission_id}`, data);
       toast.success("Project updated successfully!");
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to update project.";
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message || "Failed to update project.";
       toast.error(errorMessage);
     }
   };

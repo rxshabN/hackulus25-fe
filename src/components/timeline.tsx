@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 
 const HACKATHON_PHASES = [
@@ -24,8 +25,8 @@ export default function Timeline({ currentPhase }: TimelineProps) {
   return (
     <div className="w-72 bg-[#010027] relative">
       <div className="p-3 border-b-4 border-white">
-        <img
-          src="/final-logo.png"
+        <Image
+          src="/final-logo.webp"
           alt="Hackulus Logo"
           className="w-[4.85rem] h-[4.5rem]"
         />

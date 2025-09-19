@@ -17,31 +17,31 @@ export const whitelist = [
 export const tracks = [
   {
     name: "AI and Mathematical Modelling",
-    logo: "/ai.png",
+    logo: "/ai.webp",
   },
   {
     name: "Cyber Security",
-    logo: "/cybersec.png",
+    logo: "/cybersec.webp",
   },
   {
     name: "FinTech",
-    logo: "/fintech.png",
+    logo: "/fintech.webp",
   },
   {
     name: "Healthcare",
-    logo: "/healthcare.png",
+    logo: "/healthcare.webp",
   },
   {
     name: "VIT-Centric",
-    logo: "/vitcentric.png",
+    logo: "/vitcentric.webp",
   },
   {
     name: "Open Innovation",
-    logo: "/open.png",
+    logo: "/open.webp",
   },
   {
     name: "Sustainability",
-    logo: "/sustainability.png",
+    logo: "/sustainability.webp",
   },
 ];
 

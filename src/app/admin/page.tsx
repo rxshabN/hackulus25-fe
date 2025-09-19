@@ -16,18 +16,17 @@ import { useAuth } from "@/hooks/useAuth";
 import api from "@/lib/api";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState, useMemo, useEffect } from "react";
 import { toast } from "sonner";
 
-interface Member {
+export interface Member {
   member_id: number;
   name: string;
   email: string;
   is_leader: boolean;
 }
 
-interface Team {
+export interface Team {
   team_id: number;
   team_name: string;
   track_name: string;
@@ -76,7 +75,6 @@ const judgingCriteria = [
   "Scalability",
 ];
 
-
 const AdminDashboard = () => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -121,6 +119,7 @@ const AdminDashboard = () => {
       setTeams(response.data.teams);
     } catch (error) {
       toast.error("Failed to refresh teams list.");
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -134,6 +133,7 @@ const AdminDashboard = () => {
         setTimelinePhase(homeRes.data.currentPhase);
       } catch (error) {
         toast.error("Failed to fetch initial admin data.");
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -156,6 +156,7 @@ const AdminDashboard = () => {
         })
         .catch((error) => {
           toast.error("Failed to fetch team details.");
+          console.error(error);
         })
         .finally(() => {
           setIsDetailsLoading(false);
@@ -171,6 +172,7 @@ const AdminDashboard = () => {
       toast.success(`Timeline has been updated to: ${timelinePhase}`);
     } catch (error) {
       toast.error("Failed to update timeline. You must be a Super Admin.");
+      console.error(error);
     }
   };
   const handleEliminateConfirm = async () => {
@@ -189,6 +191,7 @@ const AdminDashboard = () => {
       toast.success(`${teamName} has been eliminated.`);
 
       fetchTeams();
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(
         error.response?.data?.message ||
@@ -249,8 +252,11 @@ const AdminDashboard = () => {
       );
       setSelectedTeam(null);
       setSelectedTeamDetails(null);
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to submit score.");
+    } catch (error) {
+      toast.error(
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message || "Failed to submit score."
+      );
     }
   };
 
@@ -536,7 +542,7 @@ const AdminDashboard = () => {
                 <div className="afacad text-white">
                   <h3 className="text-3xl font-bold">Eliminate Team</h3>
                   <p className="text-white/70">
-                    Select a team to eliminate them from Hackulus'25.
+                    Select a team to eliminate them from Hackulus&apos;25.
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
@@ -595,9 +601,9 @@ const AdminDashboard = () => {
                   Confirm Elimination
                 </h2>
                 <p className="text-center text-white mt-2 mb-6">
-                  Are you sure you want to eliminate team "
+                  Are you sure you want to eliminate team &quot;
                   {teams.find((t) => t.team_id === teamToEliminate)?.team_name}
-                  "? This action cannot be reversed.
+                  &quot;? This action cannot be reversed.
                 </p>
                 <div className="flex justify-center gap-4">
                   <Button

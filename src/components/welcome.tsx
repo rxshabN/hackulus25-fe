@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { AnimatePresence, easeOut, motion } from "framer-motion";
 import { useState } from "react";
-import SignInForm from "./auth-forms/signin-form";
+// import SignInForm from "./auth-forms/signin-form";
 import LogInForm from "./auth-forms/login-form";
 
 export default function Welcome() {
@@ -13,7 +13,7 @@ export default function Welcome() {
     damping: 20,
     stiffness: 100,
   };
-  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  // const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isLogInOpen, setIsLogInOpen] = useState(false);
 
   return (
@@ -101,7 +101,7 @@ export default function Welcome() {
             />
             <div className="relative">
               <Image
-                src="/final-logo.png"
+                src="/final-logo.webp"
                 alt="Hackulus Logo"
                 width={319}
                 height={319}

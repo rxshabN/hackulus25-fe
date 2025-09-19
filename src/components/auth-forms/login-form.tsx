@@ -36,6 +36,7 @@ export default function LogInForm({ onClose }: LogInFormProps) {
     } catch (error) {
       toast.error("Failed to log in.");
       setIsSubmitting(false);
+      console.error("Login error:", error);
     }
   };
 
@@ -52,7 +53,7 @@ export default function LogInForm({ onClose }: LogInFormProps) {
           <div className="text-left mb-6">
             <h1 className="text-4xl font-bold text-white mb-2">LOG IN</h1>
             <p className="text-white/80 text-xl">
-              Welcome back young padawan! Let's get you logged in.
+              Welcome back young padawan! Let&apos;s get you logged in.
             </p>
           </div>
 

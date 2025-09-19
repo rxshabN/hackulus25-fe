@@ -38,7 +38,7 @@ export default function TrackModal({ trackData }: TrackModalProps) {
             className="relative -top-10 -left-[2.4rem] scale-x-[-1]"
           />
           <Image
-            src="/final-logo.png"
+            src="/final-logo.webp"
             alt="Hackulus Logo"
             width={200}
             height={200}
@@ -49,7 +49,7 @@ export default function TrackModal({ trackData }: TrackModalProps) {
               {trackData.name}
             </h1>
             <p className="text-white text-2xl mb-3">
-              Here's a little something about {trackData.name}
+              Here&apos;s a little something about {trackData.name}
             </p>
             <p className="text-white text-lg">{trackData.description}</p>
             <div className="w-full max-w-3xl mx-auto mt-8">

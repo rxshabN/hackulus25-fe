@@ -46,7 +46,7 @@ export default function SignInForm({ onClose }: SignInFormProps) {
           <div className="text-left mb-6">
             <h1 className="text-4xl font-bold text-white mb-2">SIGN IN</h1>
             <p className="text-white/80 text-xl">
-              Hey there! Let's get you signed in.
+              Hey there! Let&apos;s get you signed in.
             </p>
           </div>
 

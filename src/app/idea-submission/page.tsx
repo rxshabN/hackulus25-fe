@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import IdeaSubmissionForm from "@/components/idea-forms/idea-submission-form";
 import withAuth from "@/components/auth/withAuth";
@@ -20,7 +22,7 @@ const IdeaSubmission = () => {
       <div className="logo-circle">
         <div className="logo-circle-white">
           <Image
-            src="/final-logo.png"
+            src="/final-logo.webp"
             alt="Hackulus Logo"
             width={300}
             height={300}

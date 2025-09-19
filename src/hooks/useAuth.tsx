@@ -27,7 +27,7 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  isAdmin: boolean; 
+  isAdmin: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(response.data.user);
           setIsAdmin(whitelist.includes(response.data.user.email));
         } catch (error) {
-          console.error("Session expired or token is invalid.");
+          console.error("Session expired or token is invalid.", error);
           removeToken();
           setTokenState(null);
           setUser(null);
@@ -87,9 +87,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsAdmin(false);
         router.push("/dashboard");
       }
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Login failed. Please try again.";
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message ||
+        "Login failed. Please try again.";
       console.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -100,6 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await api.post("/auth/logout");
     } catch (error) {
       toast.error("Failed to blacklist token on backend");
+      console.error("Logout error:", error);
     } finally {
       removeToken();
       setTokenState(null);

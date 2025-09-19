@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,10 +33,11 @@ interface Submission {
 }
 
 const IdeaModificationForm = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [teamTrackName, setTeamTrackName] = useState<string | null>(null);
   const [submission, setSubmission] = useState<Submission | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -57,7 +58,7 @@ const IdeaModificationForm = () => {
     Promise.all([api.get("/users/submissions"), api.get("/users/home")])
       .then(([submissionsRes, homeRes]) => {
         const ideaSubmission = submissionsRes.data.submissions.find(
-          (s: any) => s.type === "review1"
+          (s: { type: string }) => s.type === "review1"
         );
         const teamData = homeRes.data.team;
 
@@ -74,7 +75,10 @@ const IdeaModificationForm = () => {
           });
         }
       })
-      .catch((err) => toast.error("Failed to load your data."));
+      .catch((err) => {
+        toast.error("Failed to fetch initial data.");
+        console.error("Error fetching initial data:", err);
+      });
   }, [reset]);
 
   const problemStatements = teamTrackName
@@ -108,8 +112,11 @@ const IdeaModificationForm = () => {
       ]);
       toast.success("Idea updated successfully!");
       router.push("/dashboard");
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "An error occurred.");
+    } catch (error) {
+      toast.error(
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message || "An error occurred."
+      );
     }
   };
 

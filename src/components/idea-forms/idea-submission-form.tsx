@@ -27,6 +27,7 @@ export default function IdeaSubmissionForm() {
   const { user } = useAuth();
   const router = useRouter();
   const [teamTrackName, setTeamTrackName] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -84,6 +85,7 @@ export default function IdeaSubmissionForm() {
       ]);
       toast.success("Idea submitted successfully!");
       router.push("/dashboard");
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response?.data?.message || "An error occurred.");
     }

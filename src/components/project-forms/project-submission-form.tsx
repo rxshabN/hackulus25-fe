@@ -19,7 +19,7 @@ interface ProjectSubmissionFormProps {
 
 export default function ProjectSubmissionForm({
   onClose,
-  reviewStage
+  reviewStage,
 }: ProjectSubmissionFormProps) {
   const {
     register,
@@ -33,10 +33,11 @@ export default function ProjectSubmissionForm({
     try {
       await api.post("/users/submission/final", data);
       toast.success("Project submitted successfully!");
-      onClose(); 
-    } catch (error: any) {
+      onClose();
+    } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to submit project.";
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message || "Failed to submit project.";
       toast.error(errorMessage);
     }
   };

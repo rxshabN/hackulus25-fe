@@ -16,6 +16,19 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+interface Member {
+  user_id: number;
+  name: string;
+  email: string;
+  is_leader: boolean;
+}
+
+interface Team {
+  team_id: number;
+  team_name: string;
+  track_name: string;
+}
+
 interface Submission {
   submission_id: number;
   type: "review1" | "review2" | "final";
@@ -29,10 +42,28 @@ interface Submission {
   };
 }
 
+interface DashboardData {
+  user: {
+    user_id: number;
+    name: string;
+    is_leader: boolean;
+  };
+  team: Team;
+  members: Member[];
+  windows: {
+    review1: boolean;
+    review2: boolean;
+    final: boolean;
+  };
+  currentPhase: string;
+}
+
 const Dashboard = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<
@@ -60,6 +91,7 @@ const Dashboard = () => {
         setSubmissions(submissionsRes.data.submissions);
       } catch (error) {
         toast.error("Failed to fetch dashboard data:");
+        console.error("Error fetching dashboard data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -196,7 +228,7 @@ const Dashboard = () => {
                       {dashboardData?.team?.team_name || "Your Team"}
                     </div>
                     {sortedMembers.length > 0 ? (
-                      sortedMembers.map((member: any) => (
+                      sortedMembers.map((member: Member) => (
                         <div
                           key={member.user_id}
                           className="relative flex items-center w-full"
