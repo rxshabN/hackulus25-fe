@@ -1,5 +1,5 @@
 export const whitelist = [
-  "nagwanirishab@gmail.com",
+  "rishab.nagwani2023@vitstudent.ac.in",
   "aryan.vinod2023@vitstudent.ac.in",
   "nainika.anish2023@vitstudent.ac.in",
   "simran.rawat2023@vitstudent.ac.in",
@@ -9,8 +9,8 @@ export const whitelist = [
   "suhani.singh2023@vitstudent.ac.in",
   "sriharshitha.2023@vitstudent.ac.in",
   "priyanshu.kumar2023@vitstudent.ac.in",
-  "saanvimishra5248@gmail.com",
-  "akritiagarwal05@gmail.com",
+  "saanvi.devendra2023@vitstudent.ac.in",
+  "akriti.agarwal2023@vitstudent.ac.in",
   "ruhirohit.adke2023@vitstudent.ac.in",
 ];
 
