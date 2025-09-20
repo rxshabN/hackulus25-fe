@@ -16,11 +16,11 @@ import { trackinfo } from "@/lib/data";
 import { Info } from "lucide-react";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 
 interface Submission {
