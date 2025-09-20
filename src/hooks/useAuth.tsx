@@ -75,18 +75,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(newToken);
       setTokenState(newToken);
 
-      const userResponse = await api.get("/users/home");
-      setUser(userResponse.data.user);
-
-      toast.success("Login Successful!");
-
       if (isAttemptingAdminLogin) {
+        const adminProfileRes = await api.get("/admin/me");
+        setUser(adminProfileRes.data.user);
         setIsAdmin(true);
         router.push("/admin");
       } else {
+        const userProfileRes = await api.get("/users/home");
+        setUser(userProfileRes.data.user);
         setIsAdmin(false);
         router.push("/dashboard");
       }
+      toast.success("Login Successful!");
     } catch (error) {
       const errorMessage =
         //eslint-disable-next-line @typescript-eslint/no-explicit-any
