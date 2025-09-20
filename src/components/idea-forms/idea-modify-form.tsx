@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import withAdminAuth from "../auth/withAdminAuth";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -32,7 +31,7 @@ interface Submission {
   link_url: string;
 }
 
-const IdeaModificationForm = () => {
+export default function IdeaModificationForm() {
   const { user } = useAuth();
   const router = useRouter();
   const [teamTrackName, setTeamTrackName] = useState<string | null>(null);
@@ -248,6 +247,4 @@ const IdeaModificationForm = () => {
       </div>
     </div>
   );
-};
-
-export default withAdminAuth(IdeaModificationForm);
+}
