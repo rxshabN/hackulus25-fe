@@ -420,11 +420,10 @@ const AdminDashboard = () => {
                           Problem Statement
                         </label>
                         <Input
-                          disabled
                           value={
                             selectedTeamDetails?.problem_statement || "N/A"
                           }
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
                         />
                       </div>
                       <div>
@@ -432,9 +431,8 @@ const AdminDashboard = () => {
                           Idea Name
                         </label>
                         <Input
-                          disabled
                           value={latestSubmission?.title || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
                         />
                       </div>
                       <div>
@@ -442,9 +440,8 @@ const AdminDashboard = () => {
                           Description
                         </label>
                         <Input
-                          disabled
                           value={latestSubmission?.description || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
                         />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -453,7 +450,6 @@ const AdminDashboard = () => {
                             GitHub Link
                           </label>
                           <Input
-                            disabled
                             value={latestSubmission?.links?.github || "N/A"}
                             className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
                           />
@@ -463,9 +459,8 @@ const AdminDashboard = () => {
                             Figma Link
                           </label>
                           <Input
-                            disabled
                             value={latestSubmission?.links?.figma || "N/A"}
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black pointer-events-none"
                           />
                         </div>
                         <div>
@@ -473,11 +468,10 @@ const AdminDashboard = () => {
                             Presentation Link
                           </label>
                           <Input
-                            disabled
                             value={
                               latestSubmission?.links?.presentation || "N/A"
                             }
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black pointer-events-none"
                           />
                         </div>
                       </div>
