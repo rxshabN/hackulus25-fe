@@ -98,7 +98,7 @@ const AdminDashboard = () => {
   const [previousReview, setPreviousReview] = useState<Review | null>(null);
 
   const activeTeams = useMemo(
-    () => teams.filter((team) => team.status !== "Eliminated"),
+    () => teams.filter((team) => team.status.toLowerCase() !== "rejected"),
     [teams]
   );
 
@@ -340,8 +340,16 @@ const AdminDashboard = () => {
                       {filteredTeams.map((team, index) => (
                         <tr
                           key={team.team_id}
-                          onClick={() => setSelectedTeam(team)}
-                          className={`border-t border-white/30 hover:bg-white/10 cursor-pointer`}
+                          onClick={() => {
+                            if (team.status.toLowerCase() !== "rejected") {
+                              setSelectedTeam(team);
+                            }
+                          }}
+                          className={`border-t border-white/30 ${
+                            team.status.toLowerCase() === "rejected"
+                              ? "opacity-50 cursor-not-allowed bg-red-600/20"
+                              : "hover:bg-white/10 cursor-pointer"
+                          }`}
                         >
                           <td className="p-2">{index + 1}</td>
                           <td className="p-2">{team.team_name}</td>
@@ -350,7 +358,15 @@ const AdminDashboard = () => {
                             {team.members.map((m) => m.name).join(", ")}
                           </td>
                           <td className="p-2">{team.track_name}</td>
-                          <td className="p-2 capitalize">{team.status}</td>
+                          <td className="p-2 capitalize">
+                            {team.status.toLowerCase() === "rejected" ? (
+                              <span className="text-red-300 font-semibold">
+                                {team.status}
+                              </span>
+                            ) : (
+                              team.status
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
