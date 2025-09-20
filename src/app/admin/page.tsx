@@ -53,6 +53,12 @@ interface TeamDetails extends Team {
   submissions: Submission[];
 }
 
+interface Review {
+  judge_id: number;
+  score: number;
+  comments: string;
+}
+
 const hackathonPhases = [
   "Participants reach",
   "Ideation",
@@ -89,6 +95,8 @@ const AdminDashboard = () => {
   const [comments, setComments] = useState("");
   const [teamToEliminate, setTeamToEliminate] = useState<number | null>(null);
   const [isEliminationModalOpen, setIsEliminationModalOpen] = useState(false);
+  const [previousReview, setPreviousReview] = useState<Review | null>(null);
+
   const activeTeams = useMemo(
     () => teams.filter((team) => team.status !== "Eliminated"),
     [teams]
@@ -144,15 +152,38 @@ const AdminDashboard = () => {
     if (selectedTeam) {
       setIsDetailsLoading(true);
       setSelectedTeamDetails(null);
+      setPreviousReview(null);
+      setScores({});
+      setComments("");
       api
         .get(`/admin/team/${selectedTeam.team_id}`)
         .then((response) => {
           const { team, members, submissions } = response.data;
-          setSelectedTeamDetails({
-            ...team,
-            members,
-            submissions,
-          });
+          const details = { ...team, members, submissions };
+          setSelectedTeamDetails(details);
+          const latestSub =
+            details.submissions.find(
+              (s: { type: string }) => s.type === "final"
+            ) ||
+            details.submissions.find(
+              (s: { type: string }) => s.type === "review2"
+            ) ||
+            details.submissions.find(
+              (s: { type: string }) => s.type === "review1"
+            );
+          if (latestSub) {
+            api
+              .get(`/admin/submission/${latestSub.submission_id}`)
+              .then((res) => {
+                const currentUserReview = res.data.reviews.find(
+                  (review: Review) => review.judge_id === user?.user_id
+                );
+                if (currentUserReview) {
+                  setPreviousReview(currentUserReview);
+                  setComments(currentUserReview.comments || "");
+                }
+              });
+          }
         })
         .catch((error) => {
           toast.error("Failed to fetch team details.");
@@ -162,9 +193,7 @@ const AdminDashboard = () => {
           setIsDetailsLoading(false);
         });
     }
-    setScores({});
-    setComments("");
-  }, [selectedTeam]);
+  }, [selectedTeam, user]);
 
   const handleTimelineUpdate = async () => {
     try {
@@ -478,6 +507,8 @@ const AdminDashboard = () => {
                         </h3>
                         <p className="text-white/70">
                           Current Score: {currentTotalScore}
+                          {previousReview &&
+                            ` (Previous Score: ${previousReview.score})`}
                         </p>
                       </div>
                       <Button
@@ -492,12 +523,12 @@ const AdminDashboard = () => {
                       {judgingCriteria.map((criterion) => (
                         <div key={criterion}>
                           <label className="text-lg font-semibold block mb-1">
-                            {criterion} (0-10)
+                            {criterion} (0-7)
                           </label>
                           <Input
                             type="number"
                             min="0"
-                            max="10"
+                            max="7"
                             value={scores[criterion] || ""}
                             onChange={(e) =>
                               handleScoreChange(criterion, e.target.value)
