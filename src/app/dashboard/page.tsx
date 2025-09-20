@@ -422,7 +422,7 @@ const Dashboard = () => {
               <ProjectModifyForm
                 reviewStage={getCurrentReviewStage()}
                 submission={submissionForCurrentPhase}
-                onClose={() => setIsProjectSubmitModalOpen(false)}
+                onClose={() => setIsProjectModifyModalOpen(false)}
                 submissionType={
                   submissionForCurrentPhase.type as "review2" | "final"
                 }
