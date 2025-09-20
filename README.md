@@ -1,2 +1,0 @@
-###
-Hackulus25 Frontend
