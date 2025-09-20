@@ -14,7 +14,7 @@ export const ideaSchema = z.object({
     .string()
     .min(10, { message: "Description must be at least 10 characters." })
     .max(1000),
-  link_url: z
+  presentation_link: z
     .string()
     .url({ message: "Please enter a valid URL." })
     .optional()
