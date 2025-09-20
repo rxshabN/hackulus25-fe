@@ -64,7 +64,7 @@ export default function IdeaModificationForm() {
         const teamData = homeRes.data.team;
 
         if (ideaSubmission) {
-          setSubmission(ideaSubmission.submission_id);
+          setSubmission(ideaSubmission);
         }
         if (teamData) {
           setTeamTrackName(teamData.track_name);
@@ -91,7 +91,7 @@ export default function IdeaModificationForm() {
       toast.error("Only the team leader can perform this action.");
       return;
     }
-    if (!submissionId) {
+    if (!submission?.submission_id) {
       toast.error("No submission found to update.");
       return;
     }
