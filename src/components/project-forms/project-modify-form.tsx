@@ -28,12 +28,14 @@ interface ProjectModifyFormProps {
   submission: Submission;
   onClose: () => void;
   reviewStage: string;
+  submissionType: "review2" | "final";
 }
 
 export default function ProjectModifyForm({
   onClose,
   submission,
   reviewStage,
+  submissionType,
 }: ProjectModifyFormProps) {
   const {
     register,
@@ -45,7 +47,11 @@ export default function ProjectModifyForm({
   });
   const onSubmit = async (data: ProjectFormData) => {
     try {
-      await api.put(`/users/submission/${submission.submission_id}`, data);
+      const payload = {
+        ...data,
+        type: submissionType,
+      };
+      await api.put(`/users/submission/${submission.submission_id}`, payload);
       toast.success("Project updated successfully!");
       onClose();
     } catch (error) {

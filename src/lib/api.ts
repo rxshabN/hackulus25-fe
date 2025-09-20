@@ -1,4 +1,5 @@
 import axios from "axios";
+import { removeToken } from "./auth";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -16,6 +17,19 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      removeToken();
+      window.location.href = "/";
+    }
     return Promise.reject(error);
   }
 );

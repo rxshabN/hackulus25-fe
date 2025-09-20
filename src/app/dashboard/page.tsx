@@ -103,10 +103,17 @@ const Dashboard = () => {
     () => submissions.find((s) => s.type === "review1"),
     [submissions]
   );
-  const existingProjectSubmission = useMemo(
-    () => submissions.find((s) => s.type === "review2" || s.type === "final"),
-    [submissions]
-  );
+  const submissionForCurrentPhase = useMemo(() => {
+    if (!dashboardData?.currentPhase) return null;
+
+    if (dashboardData.currentPhase === "Review 2") {
+      return submissions.find((s) => s.type === "review2");
+    }
+    if (dashboardData.currentPhase === "Final Review") {
+      return submissions.find((s) => s.type === "final");
+    }
+    return null;
+  }, [submissions, dashboardData?.currentPhase]);
   const handleTrackClick = (trackName: string) => {
     const trackData = trackinfo.find((t) => t.name === trackName);
     if (trackData) {
@@ -133,16 +140,23 @@ const Dashboard = () => {
   }
   const getButtonState = () => {
     const { windows } = dashboardData || {};
+    const { currentPhase } = dashboardData || {};
     if (windows?.review1) {
       return {
         text: existingIdeaSubmission ? "Modify Idea" : "Submit Idea",
         action: "idea",
       };
     }
-    if (windows?.review2 || windows?.final) {
+    if (currentPhase === "Review 2" && windows?.review2) {
       return {
-        text: existingProjectSubmission ? "Modify Project" : "Submit Project",
-        action: "project",
+        text: submissionForCurrentPhase ? "Modify Project" : "Submit Project",
+        action: "review2",
+      };
+    }
+    if (currentPhase === "Final Review" && windows?.final) {
+      return {
+        text: submissionForCurrentPhase ? "Modify Project" : "Submit Project",
+        action: "final",
       };
     }
     return { text: "Submissions Closed", action: "closed" };
@@ -160,8 +174,9 @@ const Dashboard = () => {
           : "/idea-submission";
         router.push(route);
         break;
-      case "project":
-        if (existingProjectSubmission) {
+      case "review2":
+      case "final":
+        if (submissionForCurrentPhase) {
           setIsProjectModifyModalOpen(true);
         } else {
           setIsProjectSubmitModalOpen(true);
@@ -382,13 +397,14 @@ const Dashboard = () => {
               <ProjectSubmissionForm
                 reviewStage={getCurrentReviewStage()}
                 onClose={() => setIsProjectSubmitModalOpen(false)}
+                submissionType={getButtonState().action as "review2" | "final"}
               />
             </div>
           </>
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {isProjectModifyModalOpen && existingProjectSubmission && (
+        {isProjectModifyModalOpen && submissionForCurrentPhase && (
           <>
             <motion.div
               className="fixed inset-0 z-40 backdrop-blur-sm bg-white/60"
@@ -405,8 +421,11 @@ const Dashboard = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center">
               <ProjectModifyForm
                 reviewStage={getCurrentReviewStage()}
-                submission={existingProjectSubmission}
+                submission={submissionForCurrentPhase}
                 onClose={() => setIsProjectSubmitModalOpen(false)}
+                submissionType={
+                  submissionForCurrentPhase.type as "review2" | "final"
+                }
               />
             </div>
           </>

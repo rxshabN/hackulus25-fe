@@ -15,11 +15,13 @@ import { Info } from "lucide-react";
 interface ProjectSubmissionFormProps {
   onClose: () => void;
   reviewStage: string;
+  submissionType: "review2" | "final";
 }
 
 export default function ProjectSubmissionForm({
   onClose,
   reviewStage,
+  submissionType,
 }: ProjectSubmissionFormProps) {
   const {
     register,
@@ -31,7 +33,12 @@ export default function ProjectSubmissionForm({
 
   const onSubmit = async (data: ProjectFormData) => {
     try {
-      await api.post("/users/submission/final", data);
+      if (submissionType === "final") {
+        await api.post("/users/submission/final", data);
+      } else {
+        const payload = { ...data, type: "review2" };
+        await api.post("/users/submission/review", payload);
+      }
       toast.success("Project submitted successfully!");
       onClose();
     } catch (error) {
