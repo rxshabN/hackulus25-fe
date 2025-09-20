@@ -28,7 +28,9 @@ interface Submission {
   type: "review1";
   title: string;
   description: string;
-  link_url: string;
+  links?: {
+    presentation_link?: string;
+  };
 }
 
 export default function IdeaModificationForm() {
@@ -178,20 +180,13 @@ export default function IdeaModificationForm() {
                 control={control}
                 name="problem_statement"
                 render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="h-[44px] w-full text-lg border-r-4 border-b-4 border-black rounded-lg bg-[#ffffff]/30">
                       <SelectValue placeholder="Select a problem statement..." />
                     </SelectTrigger>
                     <SelectContent>
                       {problemStatements.map((ps) => (
-                        <SelectItem
-                          className="hover:bg-[#CF3D00] hover:text-white text-black"
-                          key={ps.title}
-                          value={ps.title}
-                        >
+                        <SelectItem key={ps.title} value={ps.title}>
                           {ps.title}
                         </SelectItem>
                       ))}

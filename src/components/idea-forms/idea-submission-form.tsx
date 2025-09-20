@@ -154,11 +154,7 @@ export default function IdeaSubmissionForm() {
                     </SelectTrigger>
                     <SelectContent>
                       {problemStatements.map((ps) => (
-                        <SelectItem
-                          className="hover:bg-[#CF3D00] hover:text-white text-black"
-                          key={ps.title}
-                          value={ps.title}
-                        >
+                        <SelectItem key={ps.title} value={ps.title}>
                           {ps.title}
                         </SelectItem>
                       ))}
