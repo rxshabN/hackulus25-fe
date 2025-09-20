@@ -42,9 +42,9 @@ interface Submission {
   title: string;
   description: string;
   links?: {
-    presentation?: string;
-    github?: string;
-    figma?: string;
+    presentation_link?: string;
+    github_link?: string;
+    figma_link?: string;
     file?: string;
   };
 }
@@ -449,7 +449,9 @@ const AdminDashboard = () => {
                             GitHub Link
                           </label>
                           <Input
-                            value={latestSubmission?.links?.github || "N/A"}
+                            value={
+                              latestSubmission?.links?.github_link || "N/A"
+                            }
                             className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
                           />
                         </div>
@@ -458,7 +460,7 @@ const AdminDashboard = () => {
                             Figma Link
                           </label>
                           <Input
-                            value={latestSubmission?.links?.figma || "N/A"}
+                            value={latestSubmission?.links?.figma_link || "N/A"}
                             className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black pointer-events-none"
                           />
                         </div>
@@ -468,7 +470,8 @@ const AdminDashboard = () => {
                           </label>
                           <Input
                             value={
-                              latestSubmission?.links?.presentation || "N/A"
+                              latestSubmission?.links?.presentation_link ||
+                              "N/A"
                             }
                             className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black pointer-events-none"
                           />
