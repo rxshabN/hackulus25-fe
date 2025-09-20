@@ -32,11 +32,20 @@ export default function ProjectSubmissionForm({
   });
 
   const onSubmit = async (data: ProjectFormData) => {
+    const payload = {
+      title: data.title,
+      description: data.description,
+      type: submissionType,
+      links: {
+        github_link: data.github_link,
+        figma_link: data.figma_link,
+        presentation_link: data.presentation_link,
+      },
+    };
     try {
       if (submissionType === "final") {
-        await api.post("/users/submission/final", data);
+        await api.post("/users/submission/final", payload);
       } else {
-        const payload = { ...data, type: "review2" };
         await api.post("/users/submission/review", payload);
       }
       toast.success("Project submitted successfully!");
