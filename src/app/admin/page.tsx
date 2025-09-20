@@ -410,9 +410,8 @@ const AdminDashboard = () => {
                           Track Name
                         </label>
                         <Input
-                          disabled
                           value={selectedTeamDetails?.track_name || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
                         />
                       </div>
                       <div>
