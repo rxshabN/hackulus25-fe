@@ -133,12 +133,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [teamsRes, homeRes] = await Promise.all([
+        const [teamsRes, timelineRes] = await Promise.all([
           api.get("/admin/teams"),
-          api.get("/users/home"),
+          api.get("/admin/timeline/phase"),
         ]);
         setTeams(teamsRes.data.teams);
-        setTimelinePhase(homeRes.data.currentPhase);
+        setTimelinePhase(timelineRes.data.currentPhase);
       } catch (error) {
         toast.error("Failed to fetch initial admin data.");
         console.error(error);

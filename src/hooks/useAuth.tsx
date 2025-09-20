@@ -12,6 +12,7 @@ import api from "@/lib/api";
 import { setToken, getToken, removeToken } from "@/lib/auth";
 import { toast } from "sonner";
 import { whitelist } from "@/lib/data";
+import { jwtDecode } from "jwt-decode";
 
 interface User {
   user_id: number;
@@ -46,9 +47,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const storedToken = getToken();
       if (storedToken) {
         try {
-          const response = await api.get("/users/home");
-          setUser(response.data.user);
-          setIsAdmin(whitelist.includes(response.data.user.email));
+          const decodedToken: { role?: string } = jwtDecode(storedToken);
+
+          let response;
+          if (
+            decodedToken.role === "judge" ||
+            decodedToken.role === "superadmin"
+          ) {
+            // If it's an admin, call the admin profile endpoint
+            response = await api.get("/admin/me");
+            setUser(response.data.user);
+            setIsAdmin(true);
+          } else {
+            // Otherwise, call the user endpoint
+            response = await api.get("/users/home");
+            setUser(response.data.user);
+            setIsAdmin(false);
+          }
         } catch (error) {
           console.error("Session expired or token is invalid.", error);
           removeToken();
