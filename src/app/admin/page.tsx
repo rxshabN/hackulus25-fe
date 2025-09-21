@@ -426,8 +426,9 @@ const AdminDashboard = () => {
                           Track Name
                         </label>
                         <Input
+                          readOnly
                           value={selectedTeamDetails?.track_name || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div>
@@ -438,7 +439,7 @@ const AdminDashboard = () => {
                           value={
                             selectedTeamDetails?.problem_statement || "N/A"
                           }
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div>
@@ -447,7 +448,8 @@ const AdminDashboard = () => {
                         </label>
                         <Input
                           value={latestSubmission?.title || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
+                          readOnly
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div>
@@ -456,7 +458,8 @@ const AdminDashboard = () => {
                         </label>
                         <Input
                           value={latestSubmission?.description || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7] pointer-events-none"
+                          readOnly
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -468,7 +471,8 @@ const AdminDashboard = () => {
                             value={
                               latestSubmission?.links?.github_link || "N/A"
                             }
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
+                            readOnly
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black"
                           />
                         </div>
                         <div>
@@ -477,7 +481,8 @@ const AdminDashboard = () => {
                           </label>
                           <Input
                             value={latestSubmission?.links?.figma_link || "N/A"}
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black pointer-events-none"
+                            readOnly
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black"
                           />
                         </div>
                         <div>
@@ -489,7 +494,8 @@ const AdminDashboard = () => {
                               latestSubmission?.links?.presentation_link ||
                               "N/A"
                             }
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black pointer-events-none"
+                            readOnly
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black"
                           />
                         </div>
                       </div>
