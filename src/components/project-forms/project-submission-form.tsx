@@ -49,7 +49,9 @@ export default function ProjectSubmissionForm({
         await api.post("/users/submission/review", payload);
       }
       toast.success("Project submitted successfully!");
-      onClose();
+      setTimeout(() => {
+        onClose();
+      }, 1000); // Close modal after 1 second
     } catch (error) {
       const errorMessage =
         //eslint-disable-next-line @typescript-eslint/no-explicit-any

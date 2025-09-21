@@ -68,11 +68,28 @@ export default function IdeaModificationForm() {
         }
         if (teamData) {
           setTeamTrackName(teamData.track_name);
+          let currentProblemStatementTitle = "";
+          if (teamData.problem_statement) {
+            try {
+              const parsed = JSON.parse(teamData.problem_statement);
+              if (
+                Array.isArray(parsed) &&
+                parsed.length > 0 &&
+                parsed[0].title
+              ) {
+                currentProblemStatementTitle = parsed[0].title;
+              }
+            } catch (e) {
+              console.error("Failed to parse problem statement:", e);
+              currentProblemStatementTitle = teamData.problem_statement;
+            }
+          }
+
           reset({
             title: ideaSubmission?.title || "",
             description: ideaSubmission?.description || "",
             presentation_link: ideaSubmission?.links?.presentation_link || "",
-            problem_statement: teamData.problem_statement || "",
+            problem_statement: currentProblemStatementTitle,
           });
         }
       })

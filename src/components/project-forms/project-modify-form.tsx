@@ -59,7 +59,9 @@ export default function ProjectModifyForm({
     try {
       await api.put(`/users/submission/${submission.submission_id}`, payload);
       toast.success("Project updated successfully!");
-      onClose();
+      setTimeout(() => {
+        onClose();
+      }, 1000); // Close modal after 1 second
     } catch (error) {
       const errorMessage =
         //eslint-disable-next-line @typescript-eslint/no-explicit-any
