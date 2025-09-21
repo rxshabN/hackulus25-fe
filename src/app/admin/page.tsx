@@ -292,13 +292,6 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
       <Image
-        src="/vector7.svg"
-        alt=""
-        width={600}
-        height={600}
-        className="absolute top-0 right-0 z-10"
-      />
-      <Image
         src="/vector8.svg"
         alt=""
         width={250}
