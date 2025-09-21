@@ -199,7 +199,7 @@ export default function IdeaModificationForm() {
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="h-[44px] w-full text-lg border-r-4 border-b-4 border-black rounded-lg bg-[#ffffff]/30">
-                      <SelectValue placeholder="Select previous problem statement..." />
+                      <SelectValue placeholder="Select problem statement..." />
                     </SelectTrigger>
                     <SelectContent>
                       {problemStatements.map((ps) => (
