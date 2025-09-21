@@ -90,7 +90,10 @@ const Dashboard = () => {
         setDashboardData(homeRes.data);
         setSubmissions(submissionsRes.data.submissions);
       } catch (error) {
-        toast.error("Failed to fetch dashboard data:");
+        const errorMessage =
+          (error as any)?.response?.data?.message ||
+          "Failed to load dashboard.";
+        toast.error(errorMessage);
         console.error("Error fetching dashboard data:", error);
       } finally {
         setIsLoading(false);
