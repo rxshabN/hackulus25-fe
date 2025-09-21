@@ -315,7 +315,7 @@ const AdminDashboard = () => {
             </h1>
           </div>
 
-          <div className="flex-1 p-8 flex-col items-center justify-center gap-8 z-20 overflow-y-auto">
+          <div className="flex-1 p-8 flex-col items-center justify-center gap-8 z-20 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#CF3D00] [&::-webkit-scrollbar-thumb]:rounded-full [scrollbar-color:#CF3D00]">
             <div className="flex-1 space-y-8 w-full">
               <div className="bg-[#CF3D00] p-6 rounded-2xl border-r-8 border-b-8 border-black space-y-4">
                 <Input
