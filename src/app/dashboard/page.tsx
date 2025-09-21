@@ -91,6 +91,7 @@ const Dashboard = () => {
         setSubmissions(submissionsRes.data.submissions);
       } catch (error) {
         const errorMessage =
+          //eslint-disable-next-line @typescript-eslint/no-explicit-any
           (error as any)?.response?.data?.message ||
           "Failed to load dashboard.";
         toast.error(errorMessage);
