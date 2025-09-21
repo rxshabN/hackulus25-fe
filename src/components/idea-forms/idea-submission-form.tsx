@@ -154,7 +154,11 @@ export default function IdeaSubmissionForm() {
                     </SelectTrigger>
                     <SelectContent>
                       {problemStatements.map((ps) => (
-                        <SelectItem key={ps.title} value={ps.title}>
+                        <SelectItem
+                          className="focus:bg-[#CF3D00] focus:text-white"
+                          key={ps.title}
+                          value={ps.title}
+                        >
                           {ps.title}
                         </SelectItem>
                       ))}
