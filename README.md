@@ -1,6 +1,6 @@
 <p align="center"><img src="https://imgur.com/Vp4LWt0.png" width=160 title="SIAM-VIT" alt="SIAM-VIT"></p>
 <div align="center">
-  <h3 align="center">Hackulus'25 Frontend (Next.js)</h3>
+  <h3 align="center">Hackulus'25 Frontend</h3>
 
   <p align="center">
     <a href="https://github.com/orgs/SIAM-VIT/repositories?q=hackulus"><strong>Explore other Hackulus repositories</strong></a>
