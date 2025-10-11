@@ -20,7 +20,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function IdeaSubmissionForm() {
@@ -71,7 +71,7 @@ export default function IdeaSubmissionForm() {
       title: data.title,
       description: data.description,
       type: "review1",
-      links: { presentation: data.link_url },
+      links: { presentation_link: data.presentation_link },
     };
 
     const problemStatementPayload = {
@@ -154,7 +154,11 @@ export default function IdeaSubmissionForm() {
                     </SelectTrigger>
                     <SelectContent>
                       {problemStatements.map((ps) => (
-                        <SelectItem key={ps.title} value={ps.title}>
+                        <SelectItem
+                          className="focus:bg-[#CF3D00] focus:text-white"
+                          key={ps.title}
+                          value={ps.title}
+                        >
                           {ps.title}
                         </SelectItem>
                       ))}
@@ -177,14 +181,14 @@ export default function IdeaSubmissionForm() {
             </label>
             <div className="flex-1">
               <Textarea
-                {...register("link_url")}
+                {...register("presentation_link")}
                 placeholder="Attach your presentation link (Drive,Google Slides,etc)"
                 className="h-16 w-full text-lg border-r-4 border-b-4 border-black rounded-2xl bg-[#ffffff]/30 placeholder:text-[#a8a8a7] resize-none"
               />
-              {errors.link_url && (
+              {errors.presentation_link && (
                 <p className="text-red-500 mt-1 flex items-center">
                   <Info size={16} className="mr-1" />
-                  {errors.link_url.message}
+                  {errors.presentation_link.message}
                 </p>
               )}
             </div>

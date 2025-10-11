@@ -90,7 +90,11 @@ const Dashboard = () => {
         setDashboardData(homeRes.data);
         setSubmissions(submissionsRes.data.submissions);
       } catch (error) {
-        toast.error("Failed to fetch dashboard data:");
+        const errorMessage =
+          //eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (error as any)?.response?.data?.message ||
+          "Failed to load dashboard.";
+        toast.error(errorMessage);
         console.error("Error fetching dashboard data:", error);
       } finally {
         setIsLoading(false);
@@ -189,13 +193,6 @@ const Dashboard = () => {
   const buttonState = getButtonState();
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      <Image
-        src="/vector7.svg"
-        alt=""
-        width={600}
-        height={600}
-        className="absolute top-0 right-0 z-10"
-      />
       <Image
         src="/vector8.svg"
         alt=""
@@ -422,7 +419,7 @@ const Dashboard = () => {
               <ProjectModifyForm
                 reviewStage={getCurrentReviewStage()}
                 submission={submissionForCurrentPhase}
-                onClose={() => setIsProjectSubmitModalOpen(false)}
+                onClose={() => setIsProjectModifyModalOpen(false)}
                 submissionType={
                   submissionForCurrentPhase.type as "review2" | "final"
                 }

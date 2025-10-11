@@ -34,7 +34,7 @@ export default function LogInForm({ onClose }: LogInFormProps) {
     try {
       await login(data.email, data.password);
     } catch (error) {
-      toast.error("Failed to log in.");
+      toast.error("Hackathon has ended. Login is disabled.");
       setIsSubmitting(false);
       console.error("Login error:", error);
     }

@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import withAdminAuth from "../auth/withAdminAuth";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -17,11 +16,11 @@ import { trackinfo } from "@/lib/data";
 import { Info } from "lucide-react";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 
 interface Submission {
@@ -29,10 +28,12 @@ interface Submission {
   type: "review1";
   title: string;
   description: string;
-  link_url: string;
+  links?: {
+    presentation_link?: string;
+  };
 }
 
-const IdeaModificationForm = () => {
+export default function IdeaModificationForm() {
   const { user } = useAuth();
   const router = useRouter();
   const [teamTrackName, setTeamTrackName] = useState<string | null>(null);
@@ -63,15 +64,32 @@ const IdeaModificationForm = () => {
         const teamData = homeRes.data.team;
 
         if (ideaSubmission) {
-          setSubmission(ideaSubmission.submission_id);
+          setSubmission(ideaSubmission);
         }
         if (teamData) {
           setTeamTrackName(teamData.track_name);
+          let currentProblemStatementTitle = "";
+          if (teamData.problem_statement) {
+            try {
+              const parsed = JSON.parse(teamData.problem_statement);
+              if (
+                Array.isArray(parsed) &&
+                parsed.length > 0 &&
+                parsed[0].title
+              ) {
+                currentProblemStatementTitle = parsed[0].title;
+              }
+            } catch (e) {
+              console.error("Failed to parse problem statement:", e);
+              currentProblemStatementTitle = teamData.problem_statement;
+            }
+          }
+
           reset({
             title: ideaSubmission?.title || "",
             description: ideaSubmission?.description || "",
-            link_url: ideaSubmission?.links?.presentation || "",
-            problem_statement: teamData.problem_statement || "",
+            presentation_link: ideaSubmission?.links?.presentation_link || "",
+            problem_statement: currentProblemStatementTitle,
           });
         }
       })
@@ -90,7 +108,7 @@ const IdeaModificationForm = () => {
       toast.error("Only the team leader can perform this action.");
       return;
     }
-    if (!submissionId) {
+    if (!submission?.submission_id) {
       toast.error("No submission found to update.");
       return;
     }
@@ -99,7 +117,7 @@ const IdeaModificationForm = () => {
       title: data.title,
       description: data.description,
       type: "review1",
-      links: { presentation: data.link_url },
+      links: { presentation_link: data.presentation_link },
     };
     const problemStatementPayload = {
       problem_statement: data.problem_statement,
@@ -179,16 +197,17 @@ const IdeaModificationForm = () => {
                 control={control}
                 name="problem_statement"
                 render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="h-[44px] w-full text-lg border-r-4 border-b-4 border-black rounded-lg bg-[#ffffff]/30">
-                      <SelectValue placeholder="Select a problem statement..." />
+                      <SelectValue placeholder="Select problem statement..." />
                     </SelectTrigger>
                     <SelectContent>
                       {problemStatements.map((ps) => (
-                        <SelectItem key={ps.title} value={ps.title}>
+                        <SelectItem
+                          className="focus:bg-[#CF3D00] focus:text-white"
+                          key={ps.title}
+                          value={ps.title}
+                        >
                           {ps.title}
                         </SelectItem>
                       ))}
@@ -211,14 +230,14 @@ const IdeaModificationForm = () => {
             </label>
             <div className="flex-1">
               <Textarea
-                {...register("link_url")}
+                {...register("presentation_link")}
                 placeholder="Attach your presentation link (Drive,Google Slides,etc)"
                 className="h-16 w-full text-lg border-r-4 border-b-4 border-black rounded-2xl bg-[#ffffff]/30 placeholder:text-[#a8a8a7] resize-none"
               />
-              {errors.link_url && (
+              {errors.presentation_link && (
                 <p className="text-red-500 mt-1 flex items-center">
                   <Info size={16} className="mr-1" />
-                  {errors.link_url.message}
+                  {errors.presentation_link.message}
                 </p>
               )}
             </div>
@@ -244,6 +263,4 @@ const IdeaModificationForm = () => {
       </div>
     </div>
   );
-};
-
-export default withAdminAuth(IdeaModificationForm);
+}

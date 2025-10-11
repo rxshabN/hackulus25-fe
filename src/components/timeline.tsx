@@ -29,6 +29,8 @@ export default function Timeline({ currentPhase }: TimelineProps) {
           src="/final-logo.webp"
           alt="Hackulus Logo"
           className="w-[4.85rem] h-[4.5rem]"
+          width={77.6}
+          height={72}
         />
       </div>
       <div className="px-6 py-6">

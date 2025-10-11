@@ -42,9 +42,9 @@ interface Submission {
   title: string;
   description: string;
   links?: {
-    presentation?: string;
-    github?: string;
-    figma?: string;
+    presentation_link?: string;
+    github_link?: string;
+    figma_link?: string;
     file?: string;
   };
 }
@@ -98,7 +98,7 @@ const AdminDashboard = () => {
   const [previousReview, setPreviousReview] = useState<Review | null>(null);
 
   const activeTeams = useMemo(
-    () => teams.filter((team) => team.status !== "Eliminated"),
+    () => teams.filter((team) => team.status.toLowerCase() !== "rejected"),
     [teams]
   );
 
@@ -133,12 +133,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [teamsRes, homeRes] = await Promise.all([
+        const [teamsRes, timelineRes] = await Promise.all([
           api.get("/admin/teams"),
-          api.get("/users/home"),
+          api.get("/admin/timeline/phase"),
         ]);
         setTeams(teamsRes.data.teams);
-        setTimelinePhase(homeRes.data.currentPhase);
+        setTimelinePhase(timelineRes.data.currentPhase);
       } catch (error) {
         toast.error("Failed to fetch initial admin data.");
         console.error(error);
@@ -292,13 +292,6 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
       <Image
-        src="/vector7.svg"
-        alt=""
-        width={600}
-        height={600}
-        className="absolute top-0 right-0 z-10"
-      />
-      <Image
         src="/vector8.svg"
         alt=""
         width={250}
@@ -315,7 +308,7 @@ const AdminDashboard = () => {
             </h1>
           </div>
 
-          <div className="flex-1 p-8 flex-col items-center justify-center gap-8 z-20 overflow-y-auto">
+          <div className="flex-1 p-8 flex-col items-center justify-center gap-8 z-20 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#CF3D00] [&::-webkit-scrollbar-thumb]:rounded-full [scrollbar-color:#CF3D00]">
             <div className="flex-1 space-y-8 w-full">
               <div className="bg-[#CF3D00] p-6 rounded-2xl border-r-8 border-b-8 border-black space-y-4">
                 <Input
@@ -340,8 +333,16 @@ const AdminDashboard = () => {
                       {filteredTeams.map((team, index) => (
                         <tr
                           key={team.team_id}
-                          onClick={() => setSelectedTeam(team)}
-                          className={`border-t border-white/30 hover:bg-white/10 cursor-pointer`}
+                          onClick={() => {
+                            if (team.status.toLowerCase() !== "rejected") {
+                              setSelectedTeam(team);
+                            }
+                          }}
+                          className={`border-t border-white/30 ${
+                            team.status.toLowerCase() === "rejected"
+                              ? "opacity-50 cursor-not-allowed bg-red-600/20"
+                              : "hover:bg-white/10 cursor-pointer"
+                          }`}
                         >
                           <td className="p-2">{index + 1}</td>
                           <td className="p-2">{team.team_name}</td>
@@ -350,7 +351,15 @@ const AdminDashboard = () => {
                             {team.members.map((m) => m.name).join(", ")}
                           </td>
                           <td className="p-2">{team.track_name}</td>
-                          <td className="p-2 capitalize">{team.status}</td>
+                          <td className="p-2 capitalize">
+                            {team.status.toLowerCase() === "rejected" ? (
+                              <span className="text-red-300 font-semibold">
+                                {team.status}
+                              </span>
+                            ) : (
+                              team.status
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -410,9 +419,9 @@ const AdminDashboard = () => {
                           Track Name
                         </label>
                         <Input
-                          disabled
+                          readOnly
                           value={selectedTeamDetails?.track_name || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div>
@@ -420,11 +429,10 @@ const AdminDashboard = () => {
                           Problem Statement
                         </label>
                         <Input
-                          disabled
                           value={
                             selectedTeamDetails?.problem_statement || "N/A"
                           }
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div>
@@ -432,9 +440,9 @@ const AdminDashboard = () => {
                           Idea Name
                         </label>
                         <Input
-                          disabled
                           value={latestSubmission?.title || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          readOnly
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div>
@@ -442,9 +450,9 @@ const AdminDashboard = () => {
                           Description
                         </label>
                         <Input
-                          disabled
                           value={latestSubmission?.description || "N/A"}
-                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black placeholder:text-[#a8a8a7]"
+                          readOnly
+                          className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black placeholder:text-[#a8a8a7]"
                         />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -453,9 +461,11 @@ const AdminDashboard = () => {
                             GitHub Link
                           </label>
                           <Input
-                            disabled
-                            value={latestSubmission?.links?.github || "N/A"}
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
+                            value={
+                              latestSubmission?.links?.github_link || "N/A"
+                            }
+                            readOnly
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black"
                           />
                         </div>
                         <div>
@@ -463,9 +473,9 @@ const AdminDashboard = () => {
                             Figma Link
                           </label>
                           <Input
-                            disabled
-                            value={latestSubmission?.links?.figma || "N/A"}
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
+                            value={latestSubmission?.links?.figma_link || "N/A"}
+                            readOnly
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black"
                           />
                         </div>
                         <div>
@@ -473,11 +483,12 @@ const AdminDashboard = () => {
                             Presentation Link
                           </label>
                           <Input
-                            disabled
                             value={
-                              latestSubmission?.links?.presentation || "N/A"
+                              latestSubmission?.links?.presentation_link ||
+                              "N/A"
                             }
-                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white/80 text-black"
+                            readOnly
+                            className="h-[44px] text-lg border-r-4 border-b-4 border-black rounded-lg bg-white text-black"
                           />
                         </div>
                       </div>

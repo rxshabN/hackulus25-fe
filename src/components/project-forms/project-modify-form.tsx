@@ -46,14 +46,22 @@ export default function ProjectModifyForm({
     resolver: zodResolver(projectSchema),
   });
   const onSubmit = async (data: ProjectFormData) => {
+    const payload = {
+      title: data.title,
+      description: data.description,
+      type: submissionType,
+      links: {
+        github_link: data.github_link,
+        figma_link: data.figma_link,
+        presentation_link: data.presentation_link,
+      },
+    };
     try {
-      const payload = {
-        ...data,
-        type: submissionType,
-      };
       await api.put(`/users/submission/${submission.submission_id}`, payload);
       toast.success("Project updated successfully!");
-      onClose();
+      setTimeout(() => {
+        onClose();
+      }, 1000); // Close modal after 1 second
     } catch (error) {
       const errorMessage =
         //eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,6 +69,7 @@ export default function ProjectModifyForm({
       toast.error(errorMessage);
     }
   };
+
   useEffect(() => {
     if (submission) {
       reset({
